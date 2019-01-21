@@ -4,6 +4,8 @@
 ### file/folder
 uwsgi_params
 aws_nginx.conf
+requirements.txt
+test/
 
 ### Django ###
 *.log
