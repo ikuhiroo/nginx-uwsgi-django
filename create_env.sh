@@ -2,9 +2,7 @@
 
 # Dependenciesの構築
 echo 'Install Dependencies'
-sudo apt-get -y install build-essential 
-sudo apt-get -y install cmake git unzip zip gcc make openssl libssl-dev libbz2-dev libreadline-dev libsqlite3-dev
-sudo apt-get -y install python-dev python3-dev python-pip python3-pip
+sudo sudo yum -y install git
 
 # pyenv環境の構築
 # instructions from https://github.com/yyuu/pyenv.git
