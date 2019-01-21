@@ -19,39 +19,9 @@ def secret(request):
         if username == BASICAUTH_USERNAME and password == BASICAUTH_PASSWORD:
             return HttpResponse("SUCCESS\n")
         else:
-            return HttpResponse(
-                """<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-                <html><head>
-                <title>401 Authorization Required</title>
-                </head><body>
-                <h1>Authorization Required</h1>
-                <p>This server could not verify that you
-                are authorized to access the document
-                requested.  Either you supplied the wrong
-                credentials (e.g., bad password), or your
-                browser doesn't understand how to supply
-                the credentials required.</p>
-                <hr>
-                <address>Apache/2.2.29 (Amazon) Server at 1.2.3.4 Port 80</address>
-                </body></html>\n"""
-            )
+            return HttpResponse(status=401)
     except:
-        return HttpResponse(
-            """<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-                <html><head>
-                <title>401 Authorization Required</title>
-                </head><body>
-                <h1>Authorization Required</h1>
-                <p>This server could not verify that you
-                are authorized to access the document
-                requested.  Either you supplied the wrong
-                credentials (e.g., bad password), or your
-                browser doesn't understand how to supply
-                the credentials required.</p>
-                <hr>
-                <address>Apache/2.2.29 (Amazon) Server at 1.2.3.4 Port 80</address>
-                </body></html>\n"""
-        )
+            return HttpResponse(status=401)
 
 """課題3 四則演算の計算"""
 def calc(request):
