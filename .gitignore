@@ -1,8 +1,9 @@
 ### https://raw.github.com/github/gitignore/d1baec1bf1fe04bbc67b9e23074ea2f00fd31224/Python.gitignore
 
-# file
+# file / folder
 uwsgi_params
 aws_nginx.conf
+test/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
