@@ -99,8 +99,8 @@ uwsgi --socket :8001 --module mysite.wsgi &
 ```
 ## ●課題1~4における共通事項
 ### 1. アプリケーションの追加
-#### 1-1. アプリケーションのルーティング設定
-#### 「aws/mysite/urls.py」にawsアプリケーションのルーティングを記述する
+### 1-1. アプリケーションのルーティング設定
+* 「aws/mysite/urls.py」にawsアプリケーションのルーティングを記述する
 ```
 from django.contrib import admin
 from django.urls import include, path
@@ -110,7 +110,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 ```
-#### 1-2. django設定ファイルの変更
+### 1-2. django設定ファイルの変更
 ```
 # Application definition
 INSTALLED_APPS = [
@@ -124,13 +124,13 @@ INSTALLED_APPS = [
 ]
 ```
 ### 2. モデル作成
-#### 「aws/aws/model.py」にDBの情報を記述する
+* 「aws/aws/model.py」にDBの情報を記述する
 ### 3. ビュー作成
-#### 「aws/aws/views.py」にレスポンス内容を記述する
+* 「aws/aws/views.py」にレスポンス内容を記述する
 ### 4. url追加
-#### 「aws/aws/urls.py」にルーティングを記述する
+* 「aws/aws/urls.py」にルーティングを記述する
 ### 5. nginx + uwsgiの起動
-#### 5-1. nginxの設定ファイル（aws_nginx.conf）の記述
+### 5-1. nginxの設定ファイル（aws_nginx.conf）の記述
 ```
 upstream django {
     server 127.0.0.1:8001; # for a web port socket (we'll use this first)
@@ -158,8 +158,8 @@ server {
     }
 }
 ```
-#### 5-2. uwsgiの設定ファイルの記述
-#### 「/etc/nginx/uwsgi_params」のコピー
+### 5-2. uwsgiの設定ファイルの記述
+* 「/etc/nginx/uwsgi_params」のコピー
 
 ## ● 課題1 : 作業ログ
 ### 3. ビュー作成
@@ -314,7 +314,7 @@ class Aws(models.Model):
 
 ```
 ### 3. ビュー作成
-#### ・バリデーションチェックのために「cerberus」を用いる
+* バリデーションチェックのために「cerberus」を用いる
 ```
 from aws.models import Aws
 import json
