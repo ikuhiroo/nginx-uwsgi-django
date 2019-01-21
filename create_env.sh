@@ -9,6 +9,13 @@ sudo yum install python-devel
 # nginxの構築
 sudo yum install nginx
 
+# /etc/nginx/uwsgi_params を Djangoプロジェクトmysiteディレクトリにコピー
+# sudo cp /etc/nginx/uwsgi_params /home/ec2-user/aws/
+
+# シンボリックリンクを貼る
+# sudo mkdir /etc/nginx/sites-enabled
+# sudo ln -s /home/ec2-user/aws/aws_nginx.conf /etc/nginx/sites-enabled/
+
 # pyenv環境の構築
 # instructions from https://github.com/yyuu/pyenv.git
 echo 'Install pyenv'
