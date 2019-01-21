@@ -100,7 +100,7 @@ uwsgi --socket :8001 --module mysite.wsgi &
 ## ●課題1~4における共通事項
 ### 1. アプリケーションの追加
 #### 1-1. アプリケーションのルーティング設定
-##### 「aws/mysite/urls.py」にawsアプリケーションのルーティングを記述する
+#### 「aws/mysite/urls.py」にawsアプリケーションのルーティングを記述する
 ```
 from django.contrib import admin
 from django.urls import include, path
@@ -159,7 +159,7 @@ server {
 }
 ```
 #### 5-2. uwsgiの設定ファイルの記述
-##### 「/etc/nginx/uwsgi_params」のコピー
+#### 「/etc/nginx/uwsgi_params」のコピー
 
 ## ● 課題1 : 作業ログ
 ### 3. ビュー作成
