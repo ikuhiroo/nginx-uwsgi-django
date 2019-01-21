@@ -1,0 +1,45 @@
+*** Starting uWSGI 2.0.17.1 (64bit) on [Mon Jan 21 09:02:51 2019] ***
+compiled with version: 7.2.1 20170915 (Red Hat 7.2.1-2) on 21 January 2019 05:32:16
+os: Linux-4.9.32-15.41.amzn1.x86_64 #1 SMP Thu Jun 22 06:20:54 UTC 2017
+nodename: ip-172-31-14-214
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/ec2-user/aws
+detected binary path: /home/ec2-user/.pyenv/versions/anaconda3-4.3.1/bin/uwsgi
+*** WARNING: you are running uWSGI without its master process manager ***
+your processes number limit is 3904
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (:8001).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.17.1 (64bit) on [Mon Jan 21 09:07:35 2019] ***
+compiled with version: 7.2.1 20170915 (Red Hat 7.2.1-2) on 21 January 2019 05:32:16
+os: Linux-4.9.32-15.41.amzn1.x86_64 #1 SMP Thu Jun 22 06:20:54 UTC 2017
+nodename: ip-172-31-14-214
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/ec2-user/aws
+detected binary path: /home/ec2-user/.pyenv/versions/anaconda3-4.3.1/bin/uwsgi
+*** WARNING: you are running uWSGI without its master process manager ***
+your processes number limit is 3904
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address :8001 fd 3
+Python version: 3.6.0 |Anaconda 4.3.1 (64-bit)| (default, Dec 23 2016, 12:22:00)  [GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x1494bf0
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 72904 bytes (71 KB) for 1 cores
+*** Operational MODE: single process ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x1494bf0 pid: 3516 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI worker 1 (and the only) (pid: 3516, cores: 1)
