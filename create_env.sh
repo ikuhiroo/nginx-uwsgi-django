@@ -20,17 +20,17 @@ sudo yum install nginx
 # instructions from https://github.com/yyuu/pyenv.git
 echo 'Install pyenv'
 git clone https://github.com/yyuu/pyenv.git ~/.pyenv
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
-echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile
-echo 'eval "$(pyenv init -)"' >> ~/.profile
-. ~/.profile
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+. ~/.bashrc
 
 # conda環境の構築
 echo 'Install anaconda3-4.3.1'
 pyenv install anaconda3-4.3.1
 pyenv global anaconda3-4.3.1
-echo 'export PATH="$PYENV_ROOT/versions/anaconda3-4.3.1/bin:$PATH"' >> ~/.profile
-. ~/.profile
+echo 'export PATH="$PYENV_ROOT/versions/anaconda3-4.3.1/bin:$PATH"' >> ~/.bashrc
+. ~/.bashrc
 
 # Install Dependencies
 echo 'Install packages'

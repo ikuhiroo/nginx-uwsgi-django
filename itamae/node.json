@@ -1,7 +1,0 @@
-{
-    "pyenv": {
-        "version": "anaconda3-4.3.1",
-        "global": "anaconda3-4.3.1", 
-        "pip_list": "requirements"
-    }
-}
