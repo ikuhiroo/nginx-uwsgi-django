@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 HOST_NAME="127.0.0.1"
-PORT="8000"
+PORT="80"
 
 curl "http://${HOST_NAME}:${PORT}/calc?abc"
 curl "http://${HOST_NAME}:${PORT}/calc?1+1" 
