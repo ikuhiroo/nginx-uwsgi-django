@@ -3,6 +3,11 @@
 # Dependenciesの構築
 echo 'Install Dependencies'
 sudo sudo yum -y install git
+sudo yum groupinstall "Development Tools"
+sudo yum install python-devel
+
+# nginxの構築
+sudo yum install nginx
 
 # pyenv環境の構築
 # instructions from https://github.com/yyuu/pyenv.git
