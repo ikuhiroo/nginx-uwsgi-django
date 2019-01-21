@@ -1,7 +1,10 @@
 #!/usr/bin/bash
 
+HOST_NAME="52.194.222.12"
+PORT="80"
+
 # basic認証なし
-curl "http://127.0.0.1:8000/secret/"
+curl "http://${HOST_NAME}:${PORT}/secret/"
 
 # 出力結果
 # <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
