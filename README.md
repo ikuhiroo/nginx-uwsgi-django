@@ -32,6 +32,14 @@ uWSGI : Web Server Gateway Interface
 Django : Webアプリケーション
 ```
 
+## ● DB（SQLite）
+### admin
+```
+usr : amazon
+email : ctwc0141@mail4.doshisha.ac.jp
+pass : candidate
+```
+
 ## ● nginxの起動（ポート80）
 ### 起動
 ```
