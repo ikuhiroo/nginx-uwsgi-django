@@ -19,13 +19,17 @@ sh ./create_env.sh
 | パッケージ | version |
 |:----:|:----:|
 | Python |Python 3.6.0 :: Anaconda 4.3.1 (64-bit)|
+| Django |2.1.4|
 
-## ●イメージ
+## ●イメージ（nginx + uWSGI + Django）
 ```
-the web client <-> the web server <-> the socket <-> uWSGI <-> Django
+the web client <-> the web server(nginx) <-> the socket <-> uWSGI <-> Django
+nginx : Webサーバー
+uWSGI : Web Server Gateway Interface
+Django : Webアプリケーション
 ```
 
-## ● nginxの起動
+## ● nginxの起動（ポート80）
 ### 起動
 ```
 sudo service nginx start
@@ -39,9 +43,9 @@ sudo nginx -s reload
 nginx -s stop
 ```
 
-## ● uwsgiでdjangoプロジェクトを起動
+## ● uwsgiでdjangoプロジェクトを起動（ポート8001）
 ```
-uwsgi --socket :8001 --module mysite.wsgi
+uwsgi --socket :8001 --module mysite.wsgi &
 ```
 ## ● テスト
 ### 課題1（”AMAZON” と表示）
