@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 HOST_NAME="127.0.0.1"
-PORT="8000"
+PORT="80"
 
 # 1 : 在庫及び売り上げを全て削除
 curl "http://${HOST_NAME}:${PORT}/stocker?function=deleteall"
