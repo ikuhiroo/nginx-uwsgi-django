@@ -1,5 +1,5 @@
 Django==2.1.4
 requests==2.14.2
 Cerberus==1.2
-uWSGI==2.0.17.1
 flake8==3.5.0
+uwsgi
