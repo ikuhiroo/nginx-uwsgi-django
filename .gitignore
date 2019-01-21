@@ -3,7 +3,6 @@
 # file / folder
 uwsgi_params
 aws_nginx.conf
-test/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
