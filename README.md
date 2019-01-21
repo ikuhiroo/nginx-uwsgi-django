@@ -8,7 +8,6 @@ IP : 52.194.222.12
 PORT : 80
 ID : AMZ000790
 ```
-
 ## ● 環境構築
 ### 1.リポジトリをクローン
 ```
@@ -24,6 +23,46 @@ sh ./create_env.sh
 | Python |Python 3.6.0 :: Anaconda 4.3.1 (64-bit)|
 | Django |2.1.4|
 
+### 3. ディレクトリ構造
+```
+.
+├── README.md・・・このファイル
+├── aws・・・アプリケーション
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations・・・マイグレーションファイル
+│   │   ├── 0001_initial.py
+│   │   └── __init__.py
+│   ├── models.py・・・モデル
+│   ├── tests.py
+│   ├── urls.py・・・アプリケーション単位でのルーティングの記述
+│   └── views.py・・・ビュー
+├── aws_nginx.conf・・・nginx設定ファイル（シンボリックリンクを/etc/nginx/uwsgi_paramsに貼る）
+├── create_env.sh・・・環境構築用ファイル
+├── db.sqlite3・・・SQLite
+├── manage.py
+├── mysite
+│   ├── __init__.py
+│   ├── settings.py・・・django設定ファイル
+│   ├── urls.py・・・プロジェクト全体のルーティングの記述
+│   └── wsgi.py
+├── requirements.txt・・・pythonパッケージ設定ファイル
+├── test・・・テスト用
+│   ├── kadai1
+│   │   └── test1.sh
+│   ├── kadai2
+│   │   ├── test1.sh
+│   │   └── test2.sh
+│   ├── kadai3
+│   │   └── test1.sh
+│   └── kadai4
+│       ├── test1.sh
+│       ├── test2.sh
+│       ├── test3.sh
+│       └── test4.sh
+└── uwsgi_params
+```
 ## ●イメージ（nginx + uWSGI + Django）
 ```
 the web client <-> the web server(nginx) <-> the socket <-> uWSGI <-> Django
