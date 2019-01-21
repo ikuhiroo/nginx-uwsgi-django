@@ -23,10 +23,10 @@ sh ./create_env.sh
 | Python |Python 3.6.0 :: Anaconda 4.3.1 (64-bit)|
 | Django |2.1.4|
 
-### 3. ディレクトリ構造
+### 3. Djangoプロジェクト（aws）のディレクトリ構造
 ```
-.
-├── README.md・・・このファイル
+aws
+├── README.md
 ├── aws・・・アプリケーション
 │   ├── __init__.py
 │   ├── admin.py
@@ -61,7 +61,7 @@ sh ./create_env.sh
 │       ├── test2.sh
 │       ├── test3.sh
 │       └── test4.sh
-└── uwsgi_params
+└── uwsgi_params・・・/etc/nginx/uwsgi_paramsをコピー
 ```
 ## ●イメージ（nginx + uWSGI + Django）
 ```
@@ -98,7 +98,9 @@ nginx -s stop
 uwsgi --socket :8001 --module mysite.wsgi &
 ```
 ## ●課題1~4における共通事項
-### 1. 「aws/mysite/urls.py」にawsアプリケーションのルーティングを記述する
+### 1. アプリケーションの追加
+#### 1-1. アプリケーションのルーティング設定
+##### 「aws/mysite/urls.py」にawsアプリケーションのルーティングを記述する
 ```
 from django.contrib import admin
 from django.urls import include, path
@@ -108,20 +110,65 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 ```
-### 2. 「aws/aws/views.py」にレスポンス内容を記述する
-### 3. 「aws/aws/urls.py」にルーティングを記述する
-### 4. nginx + uwsgiの起動
-#### 4-1. nginxの設定ファイルの記述
-#### 4-2. uwsgiの設定ファイルの記述
+#### 1-2. django設定ファイルの変更
+```
+# Application definition
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'aws.apps.AwsConfig', # 追加
+]
+```
+### 2. モデル作成
+#### 「aws/aws/model.py」にDBの情報を記述する
+### 3. ビュー作成
+#### 「aws/aws/views.py」にレスポンス内容を記述する
+### 4. url追加
+#### 「aws/aws/urls.py」にルーティングを記述する
+### 5. nginx + uwsgiの起動
+#### 5-1. nginxの設定ファイル（aws_nginx.conf）の記述
+```
+upstream django {
+    server 127.0.0.1:8001; # for a web port socket (we'll use this first)
+}
+ 
+# configuration of the server
+server {
+    # the port your site will be served on
+    listen      80;
+    # the domain name it will serve for
+    server_name 52.194.222.12; # substitute your machine's IP address or FQDN
+    charset     utf-8;
+ 
+    # max upload size
+    client_max_body_size 75M;   # adjust to taste
+ 
+    # location /static {
+    #     alias /path/to/your/mysite/static; # your Django project's static files - amend as required
+    # }
+ 
+    # Finally, send all non-media requests to the Django server.
+    location / {
+        uwsgi_pass  django;
+        include     /home/ec2-user/aws/uwsgi_params; # the uwsgi_params file you installed
+    }
+}
+```
+#### 5-2. uwsgiの設定ファイルの記述
+##### 「/etc/nginx/uwsgi_params」のコピー
 
 ## ● 課題1 : 作業ログ
-### 2. 「aws/aws/views.py」にレスポンス内容を記述する
+### 3. ビュー作成
 ```
 from django.http import HttpResponse
 def index(request):
     return HttpResponse("AMAZON\n")
 ```
-### 3. 「aws/aws/urls.py」にルーティングを記述する
+### 4. url追加
 ```
 from django.urls import path
 from . import views
@@ -131,7 +178,7 @@ urlpatterns = [
 ]
 ```
 ## ● 課題2 : 作業ログ
-### 2. 「aws/aws/views.py」にレスポンス内容を記述する
+### 3. ビュー作成
 ```
 import base64
 def secret(request):
@@ -149,7 +196,7 @@ def secret(request):
     except:
         return HttpResponse(status=401)
 ```
-### 3. 「aws/aws/urls.py」にルーティングを記述する
+### 4. url追加
 ```
 from django.urls import path
 from . import views
@@ -160,7 +207,7 @@ urlpatterns = [
 ]
 ```
 ## ● 課題3 : 作業ログ
-### 2. 「aws/aws/views.py」にレスポンス内容を記述する
+### 3. ビュー作成
 ```
 def calc(request):
     parameter = request.META['QUERY_STRING']
@@ -170,7 +217,7 @@ def calc(request):
     except:
         return HttpResponse("ERROR\n")
 ```
-### 3. 「aws/aws/urls.py」にルーティングを記述する
+### 4. url追加
 ```
 from django.urls import path
 from . import views
@@ -182,7 +229,92 @@ urlpatterns = [
 ]
 ```
 ## ● 課題4 : 作業ログ
-### 2. 「aws/aws/views.py」にレスポンス内容を記述する
+### 2. モデル作成
+```
+# Create your models here.
+from django.core.validators import MinValueValidator
+from django.core.validators import MaxValueValidator
+from django.core.validators import RegexValidator
+from django.utils.translation import gettext_lazy as _
+
+# テーブルレイアウトの設計
+# 変更時
+# python manage.py makemigrations aws
+# python manage.py migrate
+class Aws(models.Model):
+    name = models.CharField(
+        verbose_name='商品名',
+        name='name',
+        primary_key=True,
+        max_length=8,
+        unique=True,
+        blank=True,
+        null=False,
+        default='',
+        help_text='リクエストパラメータのnameを格納',
+    )
+    amount_regex = RegexValidator(
+        regex=r'^[1-9][0-9]*$',
+        message=_("正の整数を格納してください"),
+        code='Disallowed Tags',
+        inverse_match=None,
+        flags=None,
+    )
+    amount = models.IntegerField(
+        verbose_name='在庫数',
+        name='amount',
+        max_length=None,
+        unique=False,
+        blank=True,
+        null=False,
+        default=0,
+        help_text='リクエストパラメータのamountを格納',
+        validators=[amount_regex]
+    )
+    price_regex = RegexValidator(
+        regex=r'^[1-9][0-9]*$',
+        message=_("正の整数を格納してください"),
+        code='Disallowed Tags',
+        inverse_match=None,
+        flags=None,
+    )
+    price = models.IntegerField(
+        verbose_name='商品価格',
+        name='price',
+        max_length=None,
+        unique=False,
+        blank=True,
+        null=False,
+        default=1,
+        help_text='リクエストパラメータのpriceを格納',
+        validators=[price_regex]
+    )
+    sales_regex = RegexValidator(
+        regex=r'^[0-9]*$',
+        message=_("0以上の整数を格納してください"),
+        code='Disallowed Tags',
+        inverse_match=None, 
+        flags=None, 
+    )
+    sales = models.IntegerField(
+        verbose_name='売り上げ',
+        name='sales',
+        max_length=None,
+        unique=False,
+        blank=True,
+        null=False,
+        default=0,
+        help_text='リクエストパラメータpriceが設定されたら，price x amountを格納',
+        validators=[sales_regex]
+    )
+    # バックグラウンドの変更なのでmigratesする必要なし
+    # aws.objects.all()で表示されるメッセージ
+    def __str__(self):
+        return self.name
+
+```
+### 3. ビュー作成
+#### ・バリデーションチェックのために「cerberus」を用いる
 ```
 from aws.models import Aws
 import json
@@ -304,7 +436,7 @@ def stocker(request):
         return HttpResponse(ResultResponse)
 
 ```
-### 3. 「aws/aws/urls.py」にルーティングを記述する
+### 4. url追加
 ```
 from django.urls import path
 from . import views
