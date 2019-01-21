@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-HOST_NAME="127.0.0.1"
+HOST_NAME="52.194.222.12"
 PORT="80"
 
 curl "http://${HOST_NAME}:${PORT}/calc?abc"
