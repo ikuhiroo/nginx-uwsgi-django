@@ -103,8 +103,8 @@ def stocker(request):
         'price': request.GET['price'] if 'price' in request.GET else None,
     }
     ischecked = v.validate(request_parameter)
-    print(ischecked)
-    print(v.errors)
+    # print(ischecked)
+    # print(v.errors)
 
     ResultResponse = ''  # レスポンス
     if ischecked == False:
