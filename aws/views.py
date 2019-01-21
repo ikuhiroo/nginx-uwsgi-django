@@ -36,6 +36,7 @@ def calc(request):
 from aws.models import Aws
 import json
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models.functions import Lower
 from cerberus import Validator
 
 # バリデーション定義 (Cerberus)
@@ -112,8 +113,9 @@ def stocker(request):
             except:
                 # nameが指定されない場合
                 # 全ての商品の在庫の数をnameをキーに昇順ソートして出力する
+                # 小文字，大文字の順番
                 # 在庫が 0 のものは表示しない
-                for member in Aws.objects.all().order_by('amount'):
+                for member in Aws.objects.all().order_by(Lower('name')):
                     if Aws.objects.all().get(name=member).amount == 0:
                         pass
                     else:
