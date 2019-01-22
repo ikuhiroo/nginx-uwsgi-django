@@ -32,36 +32,36 @@ aws
 │   ├── admin.py
 │   ├── apps.py
 │   ├── migrations・・・マイグレーションファイル
-│   │   ├── 0001_initial.py
+│   │   ├── 0001_initial.py・・・設計したマイグレーションファイル
 │   │   └── __init__.py
-│   ├── models.py・・・モデル
+│   ├── models.py・・・テーブルレイアウトの記述
 │   ├── tests.py
 │   ├── urls.py・・・アプリケーション単位でのルーティングの記述
-│   └── views.py・・・ビュー
+│   └── views.py・・・ビュー（HttpResponseオブジェクトを返す）
 ├── aws_nginx.conf・・・nginx設定ファイル（シンボリックリンクを/etc/nginx/uwsgi_paramsに貼る）
-├── create_env.sh・・・環境構築用ファイル
-├── db.sqlite3・・・SQLite
+├── create_env.sh・・・環境構築用ファイル（pyenvなど）
+├── db.sqlite3
 ├── manage.py
 ├── mysite
 │   ├── __init__.py
 │   ├── settings.py・・・django設定ファイル
 │   ├── urls.py・・・プロジェクト全体のルーティングの記述
 │   └── wsgi.py
-├── requirements.txt・・・pythonパッケージ設定ファイル
+├── requirements.txt・・・pythonパッケージの設定ファイル
 ├── test・・・テスト用
-│   ├── kadai1
+│   ├── kadai1・・・課題1のテスト
 │   │   └── test1.sh
-│   ├── kadai2
-│   │   ├── test1.sh
-│   │   └── test2.sh
-│   ├── kadai3
+│   ├── kadai2・・・課題2のテスト
+│   │   ├── test1.sh・・・Basic認証なし
+│   │   └── test2.sh・・・Basic認証あり
+│   ├── kadai3・・・課題3のテスト
 │   │   └── test1.sh
-│   └── kadai4
+│   └── kadai4・・・課題4のテスト
 │       ├── test1.sh
 │       ├── test2.sh
 │       ├── test3.sh
 │       └── test4.sh
-└── uwsgi_params・・・/etc/nginx/uwsgi_paramsをコピー
+└── uwsgi_params・・・「/etc/nginx/uwsgi_params」をコピー
 ```
 ## ●イメージ（nginx + uWSGI + Django）
 ```
@@ -111,6 +111,7 @@ urlpatterns = [
 ]
 ```
 ### 1-2. django設定ファイルの変更
+* 「aws_nginx.conf」にawsアプリケーションのルーティングを記述する
 ```
 # Application definition
 INSTALLED_APPS = [
@@ -178,7 +179,9 @@ urlpatterns = [
 ]
 ```
 ## ● 課題2 : 作業ログ
-### 3. ビュー作成
+### 1. アプリケーションの追加
+### 2. モデル作成
+### 3. ビュー作成（aws/aws/views.py）
 ```
 import base64
 def secret(request):
@@ -196,7 +199,7 @@ def secret(request):
     except:
         return HttpResponse(status=401)
 ```
-### 4. url追加
+### 4. ルーティングの記述（aws/aws/urls.py）
 ```
 from django.urls import path
 from . import views
@@ -207,7 +210,9 @@ urlpatterns = [
 ]
 ```
 ## ● 課題3 : 作業ログ
-### 3. ビュー作成
+### 1. アプリケーションの追加
+### 2. モデル作成
+### 3. ビュー作成（aws/aws/views.py）
 ```
 def calc(request):
     parameter = request.META['QUERY_STRING']
@@ -217,7 +222,7 @@ def calc(request):
     except:
         return HttpResponse("ERROR\n")
 ```
-### 4. url追加
+### 4. ルーティングの記述（aws/aws/urls.py）
 ```
 from django.urls import path
 from . import views
@@ -229,7 +234,8 @@ urlpatterns = [
 ]
 ```
 ## ● 課題4 : 作業ログ
-### 2. モデル作成
+### 1. アプリケーションの追加
+### 2. モデル作成（aws/aws/model.py）
 ```
 # Create your models here.
 from django.core.validators import MinValueValidator
@@ -313,7 +319,7 @@ class Aws(models.Model):
         return self.name
 
 ```
-### 3. ビュー作成
+### 3. ビュー作成（aws/aws/views.py）
 * バリデーションチェックのために「cerberus」を用いる
 ```
 from aws.models import Aws
@@ -436,7 +442,7 @@ def stocker(request):
         return HttpResponse(ResultResponse)
 
 ```
-### 4. url追加
+### 4. ルーティングの記述（aws/aws/urls.py）
 ```
 from django.urls import path
 from . import views
