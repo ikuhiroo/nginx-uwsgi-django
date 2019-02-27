@@ -1,5 +1,9 @@
 aws repository
 ===
+## ●設計のポイント
+* nginx + Django
+* データストアに軽量なSQLiteを採用
+* バリデーションチェックのために「cerberus」を用いる
 ## ● Environment
 ```
 OS : Linux version 4.9.32-15.41.amzn1.x86_64
