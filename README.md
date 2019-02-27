@@ -1,7 +1,7 @@
 aws repository
 ===
 ## ●設計のポイント
-* nginx + Django
+* nginx（Webサーバー） + Django（WebApp） + WSGI（gateway，インターフェース）
 * データストアに軽量なSQLiteを採用
 * バリデーションチェックのために「cerberus（ケルベロス）」を用いる
 * 構成管理ツール（Ansibleなど）を用いてインフラ構築の自動化
