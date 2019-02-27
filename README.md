@@ -22,14 +22,30 @@ cd aws
 ```
 ### 2. パッケージの構築
 ```
-sh ./create_env.sh
+sh ${ProjectRoot}/create_env.sh
+
+${ProjectRoot}/requirements.txt
+--------------------------------------------------------------------------------
+Django==2.1.4
+requests==2.14.2
+Cerberus==1.2
+flake8==3.5.0
+uwsgi
+--------------------------------------------------------------------------------
 ```
 | パッケージ | version |
 |:----:|:----:|
 | Python |Python 3.6.0 :: Anaconda 4.3.1 (64-bit)|
 | Django |2.1.4|
 
-### 3. Djangoプロジェクト（aws）のディレクトリ構造
+### 3. プロジェクトの作成とWebアプリのテンプレートの作成
+```
+django-admin startproject aws
+cd mySite
+python manage.py startapp aws
+```
+
+### 4. Djangoプロジェクト（aws）のディレクトリ構造
 ```
 aws
 ├── README.md
@@ -75,19 +91,6 @@ the web client <-> the web server(nginx) <-> the socket <-> uWSGI <-> Django
 nginx : Webサーバー
 uWSGI : Web Server Gateway Interface
 Django : Webアプリケーション
-```
-## ●環境構築（pyenv，conda，nginxの構築）
-```
-sh ${ProjectRoot}/create_env.sh
-
-${ProjectRoot}/requirements.txt
---------------------------------------------------------------------------------
-Django==2.1.4
-requests==2.14.2
-Cerberus==1.2
-flake8==3.5.0
-uwsgi
---------------------------------------------------------------------------------
 ```
 ## ● DB（SQLite）
 ### admin
