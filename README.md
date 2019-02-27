@@ -39,7 +39,7 @@ aws
 │   ├── urls.py・・・アプリケーション単位でのルーティングの記述
 │   └── views.py・・・ビュー（HttpResponseオブジェクトを返す）
 ├── aws_nginx.conf・・・nginx設定ファイル（シンボリックリンクを/etc/nginx/uwsgi_paramsに貼る）
-├── create_env.sh・・・環境構築用ファイル（pyenvなど）
+├── create_env.sh・・・環境構築用ファイル（pyenv，conda，nginxなど）
 ├── db.sqlite3
 ├── manage.py
 ├── mysite
@@ -70,7 +70,19 @@ nginx : Webサーバー
 uWSGI : Web Server Gateway Interface
 Django : Webアプリケーション
 ```
+## ●環境構築（pyenv，conda，nginxの構築）
+```
+sh ${ProjectRoot}/create_env.sh
 
+${ProjectRoot}/requirements.txt
+--------------------------------------------------------------------------------
+Django==2.1.4
+requests==2.14.2
+Cerberus==1.2
+flake8==3.5.0
+uwsgi
+--------------------------------------------------------------------------------
+```
 ## ● DB（SQLite）
 ### admin
 ```
@@ -100,17 +112,17 @@ uwsgi --socket :8001 --module mysite.wsgi &
 ## ●課題1~4における共通事項
 ### 1. アプリケーションの追加
 ### 1-1. アプリケーションのルーティング設定
-* 「aws/mysite/urls.py」にawsアプリケーションのルーティングを記述する
+* 「${ProjectRoot}/mysite/urls.py」にawsアプリケーションのルーティングを記述する
 ```
 from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('', include('aws.urls')),
+    path('', include('aws.urls')), # 追加
     path('admin/', admin.site.urls),
 ]
 ```
-### 1-2. django設定ファイルの変更
+### 1-2. django設定ファイルの変更（${ProjectRoot}/mysite/settings.py）の変更
 * 「aws_nginx.conf」にawsアプリケーションのルーティングを記述する
 ```
 # Application definition
@@ -125,13 +137,13 @@ INSTALLED_APPS = [
 ]
 ```
 ### 2. モデル作成
-* 「aws/aws/model.py」にDBの情報を記述する
+* 「${ProjectRoot}/aws/model.py」にテーブルレイアウトを記述する
 ### 3. ビュー作成
-* 「aws/aws/views.py」にレスポンス内容を記述する
+* 「${ProjectRoot}/aws/views.py」にレスポンス内容を記述する
 ### 4. url追加
-* 「aws/aws/urls.py」にルーティングを記述する
+* 「${ProjectRoot}/aws/urls.py」にルーティングを記述する
 ### 5. nginx + uwsgiの起動
-### 5-1. nginxの設定ファイル（aws_nginx.conf）の記述
+### 5-1. nginxの設定ファイル（${ProjectRoot}/aws_nginx.conf）の記述
 ```
 upstream django {
     server 127.0.0.1:8001; # for a web port socket (we'll use this first)
@@ -161,15 +173,25 @@ server {
 ```
 ### 5-2. uwsgiの設定ファイルの記述
 * 「/etc/nginx/uwsgi_params」のコピー
+### 5-3. nginxの起動
+```
+sudo nginx
+```
+### 5-4. uwsgiの起動
+```
+nohup uwsgi --socket :8001 --module mysite.wsgi &
+```
 
 ## ● 課題1 : 作業ログ
-### 3. ビュー作成
+### 1. アプリケーションの追加
+### 2. モデル作成
+### 3. ビュー作成（${ProjectRoot}/aws/views.py）
 ```
 from django.http import HttpResponse
 def index(request):
     return HttpResponse("AMAZON\n")
 ```
-### 4. url追加
+### 4. ルーティングの記述（${ProjectRoot}/aws/urls.py）
 ```
 from django.urls import path
 from . import views
@@ -178,10 +200,12 @@ urlpatterns = [
     path('', views.index, name='index'),
 ]
 ```
+### 5. nginx + uwsgiの起動
+
 ## ● 課題2 : 作業ログ
 ### 1. アプリケーションの追加
 ### 2. モデル作成
-### 3. ビュー作成（aws/aws/views.py）
+### 3. ビュー作成（${ProjectRoot}/aws/views.py）
 ```
 import base64
 def secret(request):
@@ -199,7 +223,7 @@ def secret(request):
     except:
         return HttpResponse(status=401)
 ```
-### 4. ルーティングの記述（aws/aws/urls.py）
+### 4. ルーティングの記述（${ProjectRoot}/aws/urls.py）
 ```
 from django.urls import path
 from . import views
@@ -209,10 +233,12 @@ urlpatterns = [
 	path('secret/', views.secret, name='secret'),
 ]
 ```
+### 5. nginx + uwsgiの起動
+
 ## ● 課題3 : 作業ログ
 ### 1. アプリケーションの追加
 ### 2. モデル作成
-### 3. ビュー作成（aws/aws/views.py）
+### 3. ビュー作成（${ProjectRoot}/aws/views.py）
 ```
 def calc(request):
     parameter = request.META['QUERY_STRING']
@@ -222,7 +248,7 @@ def calc(request):
     except:
         return HttpResponse("ERROR\n")
 ```
-### 4. ルーティングの記述（aws/aws/urls.py）
+### 4. ルーティングの記述（${ProjectRoot}/aws/urls.py）
 ```
 from django.urls import path
 from . import views
@@ -233,9 +259,11 @@ urlpatterns = [
 	path('calc', views.calc, name='calc'),
 ]
 ```
+### 5. nginx + uwsgiの起動
+
 ## ● 課題4 : 作業ログ
 ### 1. アプリケーションの追加
-### 2. モデル作成（aws/aws/model.py）
+### 2. モデル作成（${ProjectRoot}/aws/model.py）
 ```
 # Create your models here.
 from django.core.validators import MinValueValidator
@@ -319,7 +347,7 @@ class Aws(models.Model):
         return self.name
 
 ```
-### 3. ビュー作成（aws/aws/views.py）
+### 3. ビュー作成（${ProjectRoot}/aws/views.py）
 * バリデーションチェックのために「cerberus」を用いる
 ```
 from aws.models import Aws
@@ -442,7 +470,7 @@ def stocker(request):
         return HttpResponse(ResultResponse)
 
 ```
-### 4. ルーティングの記述（aws/aws/urls.py）
+### 4. ルーティングの記述（${ProjectRoot}/aws/urls.py
 ```
 from django.urls import path
 from . import views
@@ -454,6 +482,7 @@ urlpatterns = [
 	path('stocker', views.stocker, name='stocker'),
 ]
 ```
+### 5. nginx + uwsgiの起動
 
 ## ● テスト
 ### 課題1（”AMAZON” と表示）
