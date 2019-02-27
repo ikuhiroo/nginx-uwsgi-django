@@ -144,6 +144,8 @@ INSTALLED_APPS = [
 * 「${ProjectRoot}/aws/urls.py」にルーティングを記述する
 ### 5. nginx + uwsgiの起動
 ### 5-1. nginxの設定ファイル（${ProjectRoot}/aws_nginx.conf）の記述
+* WSGIゲートウェイにポート8001を解放
+* ポート80でリクエストを受け付ける
 ```
 upstream django {
     server 127.0.0.1:8001; # for a web port socket (we'll use this first)
