@@ -3,6 +3,7 @@ aws repository
 ## ●設計のポイント
 * nginx（Webサーバー） + Django（WebApp） + WSGI（gateway，インターフェース）
 * データストアに軽量なSQLiteを採用
+* 仕様書に対してなるべく早くチェックするためにバリデーションチェックをした
 * バリデーションチェックのために「cerberus（ケルベロス）」を用いる
 * 構成管理ツール（Ansibleなど）を用いてインフラ構築の自動化
 * CIツールを用いたDevOps
@@ -495,6 +496,44 @@ urlpatterns = [
 ```
 ### 5. nginx + uwsgiの起動
 
+## ● リクエスト・レスポンステスト
+```
+check1 ... [PASS]
+ accessing http://52.194.222.12:80/ (expects 'AMAZON') -> 'AMAZON' [OK]
+
+check2 ... [PASS]
+ accessing http://52.194.222.12:80/secret/ (expects 401) -> 401 Unauthorized [OK]
+ accessing http://amazon:candidate@52.194.222.12:80/secret/ (expects 'SUCCESS') -> 'SUCCESS' [OK]
+
+check3 ... [PASS]
+ accessing http://52.194.222.12:80/calc?hTiAyhIx (expects ERROR) ... ERROR [OK]
+ accessing http://52.194.222.12:80/calc?1+2 (expects 3) ... 3 [OK]
+ accessing http://52.194.222.12:80/calc?6-95 (expects -89) ... -89 [OK]
+ accessing http://52.194.222.12:80/calc?88*22 (expects 1936) ... 1936 [OK]
+ accessing http://52.194.222.12:80/calc?4970/70 (expects 71) ... 71 [OK]
+ accessing http://52.194.222.12:80/calc?-43+36 (expects -7) ... -7 [OK]
+ accessing http://52.194.222.12:80/calc?4*(7+1) (expects 32) ... 32 [OK]
+ accessing http://52.194.222.12:80/calc?(7-4)*7 (expects 21) ... 21 [OK]
+
+
+check4 ... [PASS]
+ accessing http://52.194.222.12:80/stocker?function=deleteall
+ accessing http://52.194.222.12:80/stocker?function=addstock&name=xxx&amount=32
+ accessing http://52.194.222.12:80/stocker?function=sell&name=xxx&amount=2
+ accessing http://52.194.222.12:80/stocker?function=checkstock&name=xxx
+ accessing http://52.194.222.12:80/stocker?function=addstock&name=yyy&amount=20
+ accessing http://52.194.222.12:80/stocker?function=checkstock (expects xxx: 30
+yyy: 20) ... xxx: 30
+yyy: 20 [OK]
+ accessing http://52.194.222.12:80/stocker?function=deleteall
+ accessing http://52.194.222.12:80/stocker?function=addstock&name=xxx&amount=1.8603382606786114 (expects ERROR) ... ERROR [OK]
+ accessing http://52.194.222.12:80/stocker?function=deleteall
+ accessing http://52.194.222.12:80/stocker?function=addstock&name=aaa&amount=135
+ accessing http://52.194.222.12:80/stocker?function=addstock&name=bbb&927
+ accessing http://52.194.222.12:80/stocker?function=sell&name=aaa&amount=6&price=287
+ accessing http://52.194.222.12:80/stocker?function=sell&name=aaa&price=15
+ accessing http://52.194.222.12:80/stocker?function=checksales (expects sales: 1737) ... sales: 1737 [OK]
+```
 ## ● テスト
 ### 課題1（”AMAZON” と表示）
 ```
