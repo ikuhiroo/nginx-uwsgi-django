@@ -9,17 +9,17 @@
 * CIツールを用いたDevOps
 ## ● Environment
 ```
-OS : Linux version 4.9.32-15.41.amzn1.x86_64
-CPU : Intel(R) Xeon(R) CPU E5-2676 v3 @ 2.40GHz
-IP : 52.194.222.12
+OS : *********** (ex. Linux version 4.9.32-15.41.amzn1.x86_64)
+CPU : *********** (ex. Intel(R) Xeon(R) CPU E5-2676 v3 @ 2.40GHz)
+IP : xx.xxx.xxx.xx
 PORT : 80
 ID : ***********
 ```
 ## ● 環境構築
 ### 1.リポジトリをクローン
 ```
-git clone https://i_nishiyama@bitbucket.org/i_nishiyama/aws.git
-cd aws
+git clone https://i_nishiyama@bitbucket.org/ikuhiroo/nginx-uwsgi-django.git
+cd nginx-uwsgi-django
 ```
 ### 2. パッケージの構築
 ```
@@ -48,7 +48,7 @@ python manage.py startapp aws
 
 ### 4. Djangoプロジェクト（aws）のディレクトリ構造
 ```
-aws
+nginx-uwsgi-django
 ├── README.md
 ├── aws・・・アプリケーション
 │   ├── __init__.py
@@ -499,40 +499,40 @@ urlpatterns = [
 ## ● リクエスト・レスポンステスト
 ```
 check1 ... [PASS]
- accessing http://52.194.222.12:80/ (expects 'AMAZON') -> 'AMAZON' [OK]
+ accessing http://xx.xxx.xxx.xx:80/ (expects 'AMAZON') -> 'AMAZON' [OK]
 
 check2 ... [PASS]
- accessing http://52.194.222.12:80/secret/ (expects 401) -> 401 Unauthorized [OK]
- accessing http://amazon:candidate@52.194.222.12:80/secret/ (expects 'SUCCESS') -> 'SUCCESS' [OK]
+ accessing http://xx.xxx.xxx.xx/secret/ (expects 401) -> 401 Unauthorized [OK]
+ accessing http://[user]:[pass]@xx.xxx.xxx.xx/secret/ (expects 'SUCCESS') -> 'SUCCESS' [OK]
 
 check3 ... [PASS]
- accessing http://52.194.222.12:80/calc?hTiAyhIx (expects ERROR) ... ERROR [OK]
- accessing http://52.194.222.12:80/calc?1+2 (expects 3) ... 3 [OK]
- accessing http://52.194.222.12:80/calc?6-95 (expects -89) ... -89 [OK]
- accessing http://52.194.222.12:80/calc?88*22 (expects 1936) ... 1936 [OK]
- accessing http://52.194.222.12:80/calc?4970/70 (expects 71) ... 71 [OK]
- accessing http://52.194.222.12:80/calc?-43+36 (expects -7) ... -7 [OK]
- accessing http://52.194.222.12:80/calc?4*(7+1) (expects 32) ... 32 [OK]
- accessing http://52.194.222.12:80/calc?(7-4)*7 (expects 21) ... 21 [OK]
+ accessing http://xx.xxx.xxx.xx:80/calc?hTiAyhIx (expects ERROR) ... ERROR [OK]
+ accessing http://xx.xxx.xxx.xx:80/calc?1+2 (expects 3) ... 3 [OK]
+ accessing http://xx.xxx.xxx.xx:80/calc?6-95 (expects -89) ... -89 [OK]
+ accessing http://xx.xxx.xxx.xx:80/calc?88*22 (expects 1936) ... 1936 [OK]
+ accessing http://xx.xxx.xxx.xx:80/calc?4970/70 (expects 71) ... 71 [OK]
+ accessing http://xx.xxx.xxx.xx:80/calc?-43+36 (expects -7) ... -7 [OK]
+ accessing http://xx.xxx.xxx.xx:80/calc?4*(7+1) (expects 32) ... 32 [OK]
+ accessing http://xx.xxx.xxx.xx:80/calc?(7-4)*7 (expects 21) ... 21 [OK]
 
 
 check4 ... [PASS]
- accessing http://52.194.222.12:80/stocker?function=deleteall
- accessing http://52.194.222.12:80/stocker?function=addstock&name=xxx&amount=32
- accessing http://52.194.222.12:80/stocker?function=sell&name=xxx&amount=2
- accessing http://52.194.222.12:80/stocker?function=checkstock&name=xxx
- accessing http://52.194.222.12:80/stocker?function=addstock&name=yyy&amount=20
- accessing http://52.194.222.12:80/stocker?function=checkstock (expects xxx: 30
+ accessing http://xx.xxx.xxx.xx:80/stocker?function=deleteall
+ accessing http://xx.xxx.xxx.xx:80/stocker?function=addstock&name=xxx&amount=32
+ accessing http://xx.xxx.xxx.xx:80/stocker?function=sell&name=xxx&amount=2
+ accessing http://xx.xxx.xxx.xx:80/stocker?function=checkstock&name=xxx
+ accessing http://xx.xxx.xxx.xx:80/stocker?function=addstock&name=yyy&amount=20
+ accessing http://xx.xxx.xxx.xx:80/stocker?function=checkstock (expects xxx: 30
 yyy: 20) ... xxx: 30
 yyy: 20 [OK]
- accessing http://52.194.222.12:80/stocker?function=deleteall
- accessing http://52.194.222.12:80/stocker?function=addstock&name=xxx&amount=1.8603382606786114 (expects ERROR) ... ERROR [OK]
- accessing http://52.194.222.12:80/stocker?function=deleteall
- accessing http://52.194.222.12:80/stocker?function=addstock&name=aaa&amount=135
- accessing http://52.194.222.12:80/stocker?function=addstock&name=bbb&927
- accessing http://52.194.222.12:80/stocker?function=sell&name=aaa&amount=6&price=287
- accessing http://52.194.222.12:80/stocker?function=sell&name=aaa&price=15
- accessing http://52.194.222.12:80/stocker?function=checksales (expects sales: 1737) ... sales: 1737 [OK]
+ accessing http://xx.xxx.xxx.xx:80/stocker?function=deleteall
+ accessing http://xx.xxx.xxx.xx:80/stocker?function=addstock&name=xxx&amount=1.8603382606786114 (expects ERROR) ... ERROR [OK]
+ accessing http://xx.xxx.xxx.xx:80/stocker?function=deleteall
+ accessing http://xx.xxx.xxx.xx:80/stocker?function=addstock&name=aaa&amount=135
+ accessing http://xx.xxx.xxx.xx:80/stocker?function=addstock&name=bbb&927
+ accessing http://xx.xxx.xxx.xx:80/stocker?function=sell&name=aaa&amount=6&price=287
+ accessing http://xx.xxx.xxx.xx:80/stocker?function=sell&name=aaa&price=15
+ accessing http://xx.xxx.xxx.xx:80/stocker?function=checksales (expects sales: 1737) ... sales: 1737 [OK]
 ```
 ## ● テスト
 ### 課題1（”AMAZON” と表示）
