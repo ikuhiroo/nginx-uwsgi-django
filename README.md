@@ -1,4 +1,4 @@
-aws repository
+# nginx-uwsgi-django
 ===
 ## ●設計のポイント
 * nginx（Webサーバー） + Django（WebApp） + WSGI（gateway，インターフェース）
